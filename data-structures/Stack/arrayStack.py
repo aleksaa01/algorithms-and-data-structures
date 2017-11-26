@@ -1,9 +1,12 @@
 class ArrayStack:
     def __init__(self):
-        self._data = [None] * 10
+        self._data = []
 
     def __len__(self):
         return len(self._data)
+
+    def __str__(self):
+        return repr(self._data)
 
     def is_empty(self):
         return len(self._data) == 0
