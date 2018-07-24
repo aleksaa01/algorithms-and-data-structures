@@ -104,10 +104,22 @@ class BinarySearchTree(object):
     def remove(self, data):
         if not self.root:
             raise ValueError('Tree is empty.')
-        self.root = self._delete_value(data)
+        self._delete_value(data)
 
     def _delete_value(self, data):
-        return self._delete_node(self.find(data))
+        node = self.find(data, self.root)
+        if node is None:
+            raise ValueError('No node with value {}'.format(data))
+        return self._delete_node(node)
+
+    def find(self, value, node):
+        if node is None:
+            return False
+        if node.data > value:
+            return self.find(value, node.left_child)
+        if node.data < value:
+            return self.find(value, node.right_child)
+        return node
 
     def _delete_node(self, node):
         parent_node = node.parent
@@ -137,13 +149,6 @@ class BinarySearchTree(object):
             successor = self._max_node(node.left_child)
             node.data = successor.data
             self._delete_node(successor)
-    
-    def find(self, value, node):
-        if node.data < value:
-            self.find(value, node.left_child)
-        elif node.data > value:
-            self.find(value, node.right_child)
-        return node
 
     def _num_children(self, node):
         num_children = 0
@@ -162,7 +167,11 @@ class BinarySearchTree(object):
 
 if __name__ == '__main__':
     # test
+    print('Creating Binary Search Tree...')
     bst = BinarySearchTree()
+    print('Done.')
+
+    print('Inserting values...')
     bst.insert(40)
     bst.insert(10)
     bst.insert(5)
@@ -170,10 +179,19 @@ if __name__ == '__main__':
     bst.insert(60)
     bst.insert(50)
     bst.insert(70)
+    print('Done.')
+
     print('min: ', bst.min_value())
     print('max: ', bst.max_value())
+
+    print('Traversing In-order...')
     print(bst.traverse())
-    print(bst.traverse(type='pre'))
-    print(bst.traverse(type='post'))
-    # bst.remove(60)
-    # print(bst.traverse())
+    print('Traversing Pre-order')
+    print(bst.traverse(method='pre'))
+    print('Traversing Post-order')
+    print(bst.traverse(method='post'))
+    for i in (60, 10, 70, 5):
+        print('Removing value: ', i)
+        bst.remove(i)
+        print('Traversing In-order...')
+        print(bst.traverse())
