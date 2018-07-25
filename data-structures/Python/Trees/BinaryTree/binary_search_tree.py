@@ -11,24 +11,23 @@ class BinarySearchTree(object):
 
     def __init__(self):
         self.root = None
-        self._values = []
 
     def insert(self, data):
         if not self.root:
             self.root = Node(data)
         else:
-            self.insert_node(data, self.root)
+            self._insert_node(data, self.root)
 
     def _insert_node(self, data, node):
         if data <= node.data:
             if node.left_child:
-                self.insert_node(data, node.left_child)
+                self._insert_node(data, node.left_child)
             else:
                 node.left_child = Node(data)
                 node.left_child.parent = node
         else:
             if node.right_child:
-                self.insert_node(data, node.right_child)
+                self._insert_node(data, node.right_child)
             else:
                 node.right_child = Node(data)
                 node.right_child.parent = node
@@ -66,40 +65,38 @@ class BinarySearchTree(object):
     def traverse(self, method='in'):
         if not self.root:
             raise ValueError('Tree is empty.')
-        self._values.clear()
         if method == 'in':
-            self._traverse_inorder(self.root)
+            return self._traverse_inorder(self.root)
         elif method == 'pre':
-            self._traverse_preorder(self.root)
+            return self._traverse_preorder(self.root)
         elif method == 'post':
-            self._traverse_postorder(self.root)
+            return self._traverse_postorder(self.root)
         else:
             raise ValueError('method must be either "in", "pre" or "post".')
-        return self._values
     
     # left subtree -> root -> right subtree
     def _traverse_inorder(self, node):
         if node.left_child:
-            self._traverse_inorder(node.left_child)
-        self._values.append(node.data)
+            yield from self._traverse_inorder(node.left_child)
+        yield node.data
         if node.right_child:
-            self._traverse_inorder(node.right_child)
+            yield from self._traverse_inorder(node.right_child)
     
     # root -> left subtree -> right subtree
     def _traverse_preorder(self, node):
-        self._values.append(node.data)
+        yield node.data
         if node.left_child:
-            self._traverse_inorder(node.left_child)
+            yield from self._traverse_inorder(node.left_child)
         if node.right_child:
-            self._traverse_inorder(node.right_child)
+            yield from self._traverse_inorder(node.right_child)
     
     # left subtree -> right subtree -> root
     def _traverse_postorder(self, node):
         if node.left_child:
-            self._traverse_inorder(node.left_child)
+            yield from self._traverse_inorder(node.left_child)
         if node.right_child:
-            self._traverse_inorder(node.right_child)
-        self._values.append(node.data)
+            yield from self._traverse_inorder(node.right_child)
+        yield node.data
 
     def remove(self, data):
         if not self.root:
@@ -180,13 +177,16 @@ if __name__ == '__main__':
 
     print('\nTraversing In-order...')
     print(bst.traverse())
+    [print(i, end=" ") for i in bst.traverse()]
     print('Traversing Pre-order')
-    print(bst.traverse(method='pre'))
+    [print(i, end=" ") for i in bst.traverse(method='pre')]
     print('Traversing Post-order')
-    print(bst.traverse(method='post'), '\n')
+    [print(i, end=" ") for i in bst.traverse(method='post')]
+
+    print()
 
     for i in (60, 40, 70, 5):
         print('Removing value: ', i)
         bst.remove(i)
         print('Traversing Pre-order...')
-        print(bst.traverse(method='pre'))
+        [print(i, end=" ") for i in bst.traverse(method='pre')]
