@@ -143,7 +143,7 @@ class BinarySearchTree(object):
                 parent_node.left_child = child
             else:
                 parent_node.right_child = child
-                child.parent = parent_node
+            child.parent = parent_node
 
         else:
             successor = self._max_node(node.left_child)
