@@ -19,7 +19,7 @@ class BinarySearchTree(object):
         else:
             self.insert_node(data, self.root)
 
-    def insert_node(self, data, node):
+    def _insert_node(self, data, node):
         if data <= node.data:
             if node.left_child:
                 self.insert_node(data, node.left_child)
@@ -157,12 +157,6 @@ class BinarySearchTree(object):
         if node.right_child:
             num_children += 1
         return num_children
-
-    def predecessor(self, node):
-        if node.right_child:
-            return self.find_predecessor(node.right_child)
-        return node
-
 
 
 if __name__ == '__main__':
