@@ -45,7 +45,7 @@ class BinarySearchTree(object):
 
     def _min_node(self, node):
         if node.left_child:
-            self._min_node(node.left_child)
+            return self._min_node(node.left_child)
         return node
 
     def max_value(self):
@@ -60,7 +60,7 @@ class BinarySearchTree(object):
 
     def _max_node(self, node):
         if node.right_child:
-            self._max_node(node.right_child)
+            return self._max_node(node.right_child)
         return node
 
     def traverse(self, method='in'):
@@ -143,8 +143,8 @@ class BinarySearchTree(object):
                 parent_node.left_child = child
             else:
                 parent_node.right_child = child
+                child.parent = parent_node
 
-            child.parent = parent_node
         else:
             successor = self._max_node(node.left_child)
             node.data = successor.data
@@ -174,24 +174,25 @@ if __name__ == '__main__':
     print('Inserting values...')
     bst.insert(40)
     bst.insert(10)
-    bst.insert(5)
     bst.insert(30)
     bst.insert(60)
     bst.insert(50)
+    bst.insert(5)
     bst.insert(70)
-    print('Done.')
+    print('Done.\n')
 
     print('min: ', bst.min_value())
     print('max: ', bst.max_value())
 
-    print('Traversing In-order...')
+    print('\nTraversing In-order...')
     print(bst.traverse())
     print('Traversing Pre-order')
     print(bst.traverse(method='pre'))
     print('Traversing Post-order')
-    print(bst.traverse(method='post'))
-    for i in (60, 10, 70, 5):
+    print(bst.traverse(method='post'), '\n')
+
+    for i in (60, 40, 70, 5):
         print('Removing value: ', i)
         bst.remove(i)
-        print('Traversing In-order...')
-        print(bst.traverse())
+        print('Traversing Pre-order...')
+        print(bst.traverse(method='pre'))
