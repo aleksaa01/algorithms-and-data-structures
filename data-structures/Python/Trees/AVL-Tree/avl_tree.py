@@ -33,6 +33,74 @@ class AVLTree(object):
                 return node.right_child
             return self._insert(node.right_child, data)
 
+    def remove(self, data):
+        if not self.root:
+            raise ValueError('Tree is empty.')
+        self._delete_value(data)
+
+    def _delete_value(self, data):
+        node = self.find(data, self.root)
+        if node is False:
+            raise ValueError('No node with value {}'.format(data))
+        parent_of_deleted_node = self._delete_node(node)
+        # if parent is None we know that we just deleted the root node,
+        # but if root node had a child, that child is now the root node!
+        if not parent_of_deleted_node and self.root:
+            parent_of_deleted_node = self.root
+        self._walk_up(parent_of_deleted_node)
+
+    def find(self, value, node):
+        if node is None:
+            return False
+        if node.data > value:
+            return self.find(value, node.left_child)
+        elif node.data < value:
+            return self.find(value, node.right_child)
+        return node
+
+    def _delete_node(self, node):
+        parent_node = node.parent
+        num_child = self._num_children(node)
+
+        if num_child == 0:
+            # If there is no parent then 'node' is the root node.
+            # 'node' has no children, so set root to point to None.
+            if not parent_node:
+                self.root = None
+            elif parent_node.left_child == node:
+                parent_node.left_child = None
+            else:
+                parent_node.right_child = None
+            return parent_node
+
+        elif num_child == 1:
+            if node.left_child:
+                child = node.left_child
+            else:
+                child = node.right_child
+
+            if not parent_node:
+                self.root = child
+            elif parent_node.left_child == node:
+                parent_node.left_child = child
+            else:
+                parent_node.right_child = child
+            child.parent = parent_node
+            return parent_node
+
+        else:
+            successor = self._max_node(node.left_child)
+            node.data = successor.data
+            self._delete_node(successor)
+
+    def _num_children(self, node):
+        num_children = 0
+        if node.left_child:
+            num_children += 1
+        if node.right_child:
+            num_children += 1
+        return num_children
+
     def _walk_up(self, node):
         if not node:
             return
@@ -67,6 +135,8 @@ class AVLTree(object):
             node.parent.right_child = child_node
         else:
             child_node.parent = None
+            # because we are not replacing the parent node('node') with the
+            # child node('child_node'), self.root is still pointing at the parent node.
             self.root = child_node
 
         child_node.left_child = node
@@ -93,9 +163,19 @@ class AVLTree(object):
 
         node.height -= 1
 
+    def _min_node(self, node):
+        if node.left_child:
+            return self._min_node(node.left_child)
+        return node
+
+    def _max_node(self, node):
+        if node.right_child:
+            return self._max_node(node.right_child)
+        return node
+
     def traverse(self, method='in'):
         if not self.root:
-            raise ValueError('Tree is empty.')
+            return iter(())
         if method == 'in':
             return self._traverse_inorder(self.root)
         elif method == 'pre':
@@ -157,8 +237,58 @@ if __name__ == '__main__':
         avl.insert(30)
         avl.insert(22)
         avl.insert(35)
-        assert [10, 1, 5, 7, 15, 20, 22, 25, 30, 35] == ([i for i in avl.traverse(method='pre')])
+        assert [10, 1, 5, 7, 15, 20, 22, 25, 30, 35] == [i for i in avl.traverse(method='pre')]
+
+    def test4():
+        avl = AVLTree()
+        avl.insert(10)
+        avl.insert(5)
+        avl.insert(20)
+        assert [10, 5, 20] == [i for i in avl.traverse(method='pre')]
+        avl.remove(10)
+        assert [5, 20] == [i for i in avl.traverse(method='pre')]
+        avl.remove(5)
+        assert [20] == [i for i in avl.traverse(method='pre')]
+        avl.remove(20)
+        assert [] == [i for i in avl.traverse(method='pre')]
+
+    def test5():
+        avl = AVLTree()
+        avl.insert(20)
+        avl.insert(10)
+        avl.insert(30)
+        avl.insert(5)
+        avl.insert(40)
+
+        avl.remove(40)
+        assert [20, 5, 10, 30] == [i for i in avl.traverse(method='pre')]
+        avl.remove(30)
+        assert [10, 5, 20] == [i for i in avl.traverse(method='pre')]
+
+    def test6():
+        avl = AVLTree()
+        avl.insert(10)
+        avl.insert(5)
+        avl.insert(20)
+        avl.insert(1)
+        avl.insert(7)
+        avl.insert(15)
+        avl.insert(25)
+        avl.insert(30)
+        avl.insert(22)
+        avl.insert(35)
+
+        avl.remove(10)
+        assert [7, 1, 5, 15, 20, 22, 25, 30, 35] == [i for i in avl.traverse(method='pre')]
+        avl.remove(35)
+        assert [7, 1, 5, 15, 20, 22, 25, 30] == [i for i in avl.traverse(method='pre')]
+        for i in [i for i in avl.traverse(method='pre')]:
+            avl.remove(i)
+        assert [] == [i for i in avl.traverse(method='pre')]
 
     test1()
     test2()
     test3()
+    test4()
+    test5()
+    test6()
