@@ -105,7 +105,7 @@ class BinarySearchTree(object):
 
     def _delete_value(self, data):
         node = self.find(data, self.root)
-        if node is None:
+        if node is False:
             raise ValueError('No node with value {}'.format(data))
         return self._delete_node(node)
 
@@ -114,7 +114,7 @@ class BinarySearchTree(object):
             return False
         if node.data > value:
             return self.find(value, node.left_child)
-        if node.data < value:
+        elif node.data < value:
             return self.find(value, node.right_child)
         return node
 
@@ -185,7 +185,7 @@ if __name__ == '__main__':
 
     print()
 
-    for i in (60, 40, 70, 5):
+    for i in (60, 40, 70, 5, 123):
         print('Removing value: ', i)
         bst.remove(i)
         print('Traversing Pre-order...')
