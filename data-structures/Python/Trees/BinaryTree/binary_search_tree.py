@@ -64,7 +64,7 @@ class BinarySearchTree(object):
 
     def traverse(self, method='in'):
         if not self.root:
-            raise ValueError('Tree is empty.')
+            return iter(())
         if method == 'in':
             return self._traverse_inorder(self.root)
         elif method == 'pre':
@@ -178,7 +178,6 @@ if __name__ == '__main__':
     print('max: ', bst.max_value())
 
     print('\nTraversing In-order...')
-    print(bst.traverse())
     [print(i, end=" ") for i in bst.traverse()]
     print('Traversing Pre-order')
     [print(i, end=" ") for i in bst.traverse(method='pre')]
@@ -192,5 +191,4 @@ if __name__ == '__main__':
         print('Removing value: ', i)
         bst.remove(i)
         print('Traversing Pre-order...')
-        if i != values_to_remove[-1]:
-            [print(i, end=" ") for i in bst.traverse(method='pre')]
+        [print(i, end=" ") for i in bst.traverse(method='pre')]
