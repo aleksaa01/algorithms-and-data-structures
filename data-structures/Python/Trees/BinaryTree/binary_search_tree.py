@@ -107,7 +107,7 @@ class BinarySearchTree(object):
         node = self.find(data, self.root)
         if node is False:
             raise ValueError('No node with value {}'.format(data))
-        return self._delete_node(node)
+        self._delete_node(node)
 
     def find(self, value, node):
         if node is None:
@@ -126,7 +126,7 @@ class BinarySearchTree(object):
             # If there is no parent then this is root node
             if not parent_node:
                 self.root = None
-            if parent_node.left_child == node:
+            elif parent_node.left_child == node:
                 parent_node.left_child = None
             elif parent_node.right_child == node:
                 parent_node.right_child = None
@@ -136,7 +136,9 @@ class BinarySearchTree(object):
             else:
                 child = node.right_child
 
-            if parent_node.left_child == node:
+            if not parent_node:
+                self.root = child
+            elif parent_node.left_child == node:
                 parent_node.left_child = child
             else:
                 parent_node.right_child = child
@@ -185,8 +187,10 @@ if __name__ == '__main__':
 
     print()
 
-    for i in (60, 40, 70, 5, 123):
+    values_to_remove = [i for i in bst.traverse()]
+    for i in values_to_remove:
         print('Removing value: ', i)
         bst.remove(i)
         print('Traversing Pre-order...')
-        [print(i, end=" ") for i in bst.traverse(method='pre')]
+        if i != values_to_remove[-1]:
+            [print(i, end=" ") for i in bst.traverse(method='pre')]
