@@ -23,9 +23,7 @@ class SinglyLinkedList(object):
         self.head.next = old_head
     
     def add_value(self, value):
-        old_head = self.head
-        self.head = Node(value)
-        self.head.next = old_head
+        self.add_node(Node(value))
 
     def delete_node(self, node):
         dummy_head = Node(0)
