@@ -55,6 +55,12 @@ class SinglyLinkedList(object):
             cur = cur.next
         return None
 
+    def traverse(self):
+        cur = self.head
+        while cur:
+            yield cur.value
+            cur = cur.next
+
     def print_nodes(self):
         cur = self.head
         print('[', end='')
