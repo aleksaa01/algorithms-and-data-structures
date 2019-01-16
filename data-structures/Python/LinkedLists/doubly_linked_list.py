@@ -13,6 +13,9 @@ class DoublyLinkedList(object):
         self.trailer = Node(None)
         self.header.next = self.trailer
         self.trailer.prev = self.header
+
+        self._iterator_current = self.header
+
         if isinstance(list_object, list):
             self.build(list_object)
 
@@ -89,6 +92,17 @@ class DoublyLinkedList(object):
             cur = cur.next
         return '[' + ', '.join(map(str, nodes)) + ']'
 
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        next_node = self._iterator_current.next
+        if next_node == self.trailer:
+            self._iterator_current = self.header
+            raise StopIteration
+        self._iterator_current = next_node
+        return next_node
+
 
 if __name__ == '__main__':
     def test1():
@@ -119,5 +133,13 @@ if __name__ == '__main__':
         assert dll.print_nodes() == '[8, 17]'
         print('Test 2 Done!')
 
+    def test3():
+        dll = DoublyLinkedList([1, 2, 3, 4, 5])
+        assert [i.value for i in dll] == [1, 2, 3, 4, 5]
+        dll.insert_end_value(8)
+        assert [i.value for i in dll] == [1, 2, 3, 4, 5, 8]
+        print('Test 3 Done!')
+
     test1()
     test2()
+    test3()
