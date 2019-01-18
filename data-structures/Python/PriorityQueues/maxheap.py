@@ -38,10 +38,13 @@ class MaxHeap(object):
         self.delete()
 
         return max_value
-    
+
     def delete(self):
         if len(self.data) == 0:
-            raise EmptyHeap("Unable to delete, heap is empty.")
+            raise EmptyHeap('Unable to delete, heap is empty.')
+        elif len(self.data) == 1:
+            self.data.pop()
+            return
 
         last_value = self.data.pop()
         self.data[0] = last_value
@@ -51,23 +54,27 @@ class MaxHeap(object):
         while index > 0:
             parent = index // 2 - 1 if index % 2 == 0 else index // 2
             if value > self.data[parent]:
-                self.data[index], self.data[parent] = self.data[parent], self.data[index]
+                self.data[index], self.data[parent] = self.data[parent], value
                 index = parent
                 continue
             break
 
     def sift_down(self, index, value):
-        heap_len = len(self.data) - 1
-        while index < heap_len:
-            lchild = index * 2 + 1
-            if lchild <= heap_len and self.data[lchild] > value:
-                self.data[index], self.data[lchild] = self.data[lchild], self.data[index]
-                index = lchild
-                continue
-            rchild = index * 2 + 2
-            if rchild <= heap_len and self.data[rchild] > value:
-                self.data[index], self.data[rchild] = self.data[rchild], self.data[index]
-                index = rchild
+        heap_size = len(self.data)
+        while index < heap_size:
+            first_index = index * 2 + 1
+            first_value = None
+            other_index = index * 2 + 2
+            if first_index >= heap_size:
+                break
+            first_value = self.data[first_index]
+            if other_index < heap_size and self.data[other_index] > first_value:
+                first_index = other_index
+                first_value = self.data[other_index]
+
+            if first_value > value:
+                self.data[index], self.data[first_index] = first_value, value
+                index = first_index
                 continue
             break
 
@@ -88,4 +95,13 @@ if __name__ == '__main__':
         h.push(99)
         assert 100 == h.pop()
 
+    def test2():
+        h = MaxHeap()
+        for i in range(10000, -1, -1):
+            h.push(i)
+        for i in range(10001):
+            assert h.pop() == 10000 - i
+
     test1()
+    test2()
+    print('All test done.')
