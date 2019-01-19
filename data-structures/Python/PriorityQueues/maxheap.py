@@ -5,14 +5,17 @@ class EmptyHeap(Exception):
 class MaxHeap(object):
 
     def __init__(self, list_object=None):
+        self.data = []
         if list_object:
             self.heapify(list_object)
 
-        self.data = []
-
     def heapify(self, list_object):
-        for i in list_object:
-            self.push(i)
+        index = len(list_object) // 2
+        self.data = list_object[:]
+
+        while index > -1:
+            self.sift_down(index, list_object[index])
+            index -= 1
 
     def peek(self):
         if len(self.data) > 0:
@@ -101,6 +104,14 @@ if __name__ == '__main__':
             h.push(i)
         for i in range(10001):
             assert h.pop() == 10000 - i
+
+    def test3():
+        h = MaxHeap([1,2,3,4,5])
+        for i in range(5, -1, -1):
+            assert h.pop() == i
+        h2 = MaxHeap([5,4,3,2,1])
+        for i in range(5, -1, -1):
+            assert h2.pop() == i
 
     test1()
     test2()

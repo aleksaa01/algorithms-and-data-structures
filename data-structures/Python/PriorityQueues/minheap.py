@@ -5,14 +5,17 @@ class EmptyHeap(Exception):
 class MinHeap(object):
 
     def __init__(self, list_object=None):
+        self.data = []
         if list_object:
             self.heapify(list_object)
 
-        self.data = []
-
     def heapify(self, list_object):
-        for i in list_object:
-            self.push(i)
+        index = len(list_object) // 2
+        self.data = list_object[:]
+
+        while index > -1:
+            self.sift_down(index, self.data[index])
+            index -= 1
 
     def peek(self):
         if len(self.data) > 0:
@@ -120,5 +123,15 @@ if __name__ == '__main__':
         h.push(99)
         assert 4 == h.pop()
 
+    def test3():
+        h = MinHeap([1,2,3,4,5])
+        for i in range(1, 6):
+            assert h.pop() == i
+        h2 = MinHeap([5,4,3,2,1])
+        for i in range(1, 6):
+            assert h2.pop() == i
+
     test1()
+    test2()
+    test3()
     print('All test done.')
