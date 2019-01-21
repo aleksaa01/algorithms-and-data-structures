@@ -1,7 +1,7 @@
 from singly_linked_list import SinglyLinkedList
 
 
-class LLStack:
+class SLLStack:
     def __init__(self):
         self.size = 0
         self._data = SinglyLinkedList()
