@@ -112,8 +112,9 @@ if __name__ == '__main__':
 
     def test3():
         print('Start test 3(processing 1.000.000 items in 2 ways)...')
+        long_list = [i for i in range(1000000)]
         t1 = time.time()
-        q = ArrayQueue([i for i in range(1000000)])
+        q = ArrayQueue(long_list)
         while not q.is_empty():
             q.dequeue()
         t2 = time.time()
