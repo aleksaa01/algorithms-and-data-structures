@@ -18,9 +18,6 @@ class ArrayQueue(object):
     def __len__(self):
         return self.size
 
-    def data_len(self):
-        return len(self.data)
-
     def is_empty(self):
         return self.size == 0
 
