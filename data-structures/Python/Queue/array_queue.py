@@ -29,7 +29,8 @@ class ArrayQueue(object):
             self.grow()
 
         self.front += 1
-        self.front %= len(self.data)
+        if self.front >= len(self.data):
+            self.front %= len(self.data)
 
         self.data[self.front] = item
         self.size += 1
@@ -45,7 +46,8 @@ class ArrayQueue(object):
         self.size -= 1
 
         self.back += 1
-        self.back %= len(self.data)
+        if self.back >= len(self.data):
+            self.back %= len(self.data)
         return item
 
     def grow(self):
