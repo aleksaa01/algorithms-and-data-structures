@@ -37,7 +37,7 @@ class ArrayQueue(object):
     def dequeue(self):
         if self.size == 0:
             raise IndexError('Unable to dequeue, Queue is empty.')
-        elif self.size > self.DEFAULT_SIZE and self.size < len(self.data) // 2:
+        elif self.size > self.DEFAULT_SIZE and self.size <= len(self.data) // 2:
             self.shrink()
 
         item = self.data[self.back]
@@ -51,12 +51,12 @@ class ArrayQueue(object):
     def grow(self):
         front = self.front
         back = self.back
-        queue_len = len(self.data)
+        queue_size = self.size
 
-        if front < (queue_len - 1):
-            self.data = self.data[back:] + self.data[:front+1] + [None] * (queue_len // 2)
+        if front < back:
+            self.data = self.data[back:] + self.data[:front+1] + [None] * (queue_size // 2)
         else:
-            self.data = self.data[back:front+1] + [None] * (queue_len // 2)
+            self.data = self.data[back:front+1] + [None] * (queue_size // 2)
 
         self.front = self.size - 1
         self.back = 0
@@ -66,7 +66,7 @@ class ArrayQueue(object):
         back = self.back
         queue_size = self.size
 
-        if front < (queue_size - 1):
+        if front < back:
             self.data = self.data[back:queue_size] + self.data[:front+1]
         else:
             self.data = self.data[back:front+1]
