@@ -19,6 +19,20 @@ class DoublyLinkedList(object):
         if isinstance(list_object, list):
             self.build(list_object)
 
+    @property
+    def head_value(self):
+        head = self.header.next
+        if head != self.trailer:
+            return head.value
+        return None
+
+    @property
+    def tail_value(self):
+        tail = self.trailer.prev
+        if tail != self.header:
+            return tail.value
+        return None
+
     def build(self, list_object):
         for i in list_object:
             self.insert_end_node(Node(i))
@@ -64,6 +78,22 @@ class DoublyLinkedList(object):
                 self.remove_node(cur)
                 break
             cur = cur.next
+
+    def pop_front_value(self):
+        head = self.header.next
+        if head != self.trailer:
+            value = head.value
+            self.remove_node(head)
+            return value
+        raise IndexError('Unable to pop, list is empty.')
+
+    def pop_back_value(self):
+        tail = self.trailer.prev
+        if tail != self.header:
+            value = tail.value
+            self.remove_node(tail)
+            return value
+        raise IndexError('Unable to pop, list is empty.')
 
     def lfind(self, value):
         cur = self.header.next
