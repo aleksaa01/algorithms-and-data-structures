@@ -1,7 +1,3 @@
-class EmptyHeap(Exception):
-    pass
-
-
 class MaxHeap(object):
 
     def __init__(self, list_object=None):
@@ -35,7 +31,7 @@ class MaxHeap(object):
 
     def pop(self):
         if len(self.data) == 0:
-            raise EmptyHeap("Unable to pop, heap is empty.")
+            raise IndexError("Unable to pop, heap is empty.")
 
         max_value = self.data[0]
         self.delete()
@@ -44,7 +40,7 @@ class MaxHeap(object):
 
     def delete(self):
         if len(self.data) == 0:
-            raise EmptyHeap('Unable to delete, heap is empty.')
+            raise IndexError('Unable to delete, heap is empty.')
         elif len(self.data) == 1:
             self.data.pop()
             return
