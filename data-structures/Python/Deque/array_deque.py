@@ -113,7 +113,6 @@ class ArrayDeque(object):
 
 
 if __name__ == '__main__':
-    # add test 2 up to 120 before time test !!! NOT WORKING !!!
     import time
     
     def test1():
