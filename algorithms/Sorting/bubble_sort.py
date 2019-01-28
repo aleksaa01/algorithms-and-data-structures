@@ -7,14 +7,13 @@ def bubble_sort(array):
 def bubble_sort_improved(array):
     x = 0
     n = len(array)
-    while x < n - 1:
-        swaped = False
+    swapped = True
+    while x < n - 1 and swapped:
+        swapped = False
         for j in range(n - x - 1):
             if array[j] > array[j + 1]:
-                swaped = True
+                swapped = True
                 array[j], array[j + 1] = array[j + 1], array[j]
-        if not swaped:
-            break
         x += 1
 
 
