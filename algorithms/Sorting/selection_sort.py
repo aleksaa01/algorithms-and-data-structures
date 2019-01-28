@@ -16,7 +16,18 @@ if __name__ == '__main__':
         l1 = [i for i in range(5000)]
         l2 = l1.copy()
         random.shuffle(l2)
-        print('Sorting 5000 items...')
+        print('Sorting 5000 unsorted items...')
+        t1 = time.time()
+        selection_sort(l2)
+        t2 = time.time()
+        print('Time took:', t2 - t1)
+        assert l1 == l2
+
+    def test2():
+        import random
+        l1 = [i for i in range(5000)]
+        l2 = l1.copy()
+        print('Sorting 5000 sorted items...')
         t1 = time.time()
         selection_sort(l2)
         t2 = time.time()
@@ -24,3 +35,4 @@ if __name__ == '__main__':
         assert l1 == l2
 
     test1()
+    test2()
