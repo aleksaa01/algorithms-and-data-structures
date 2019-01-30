@@ -1,3 +1,31 @@
+def quicksort_improved(array, start, end):
+    if end - start < 2:
+        return
+
+    pivot = partition_improved(array, start, end - 1)
+    quicksort_improved(array, start, pivot)
+    quicksort_improved(array, pivot + 1, end)
+
+
+def partition_improved(array, start, end):
+    pivot = array[(start + end) // 2]
+    left = start
+    right = end
+
+    while True:
+        # goes on until the condition in while loop is False,
+        # or until value is same as pivot, which guarantees that loop will stop before going out of bounds.
+        while array[left] < pivot:
+            left += 1
+        while array[right] > pivot:
+            right -= 1
+
+        if left >= right:
+            return right
+
+        array[left], array[right] = array[right], array[left]
+
+
 def quicksort(array, start, end):
     if end - start < 2:
         return
@@ -47,5 +75,28 @@ if __name__ == '__main__':
         print('Time took:', t2 - t1)
         assert l1 == l2
 
+    def test3():
+        l1 = [i for i in range(5000)]
+        l2 = l1.copy()
+        random.shuffle(l2)
+        print('Sorting 5000 unsorted items...(quicksort improved)')
+        t1 = time.time()
+        quicksort_improved(l2, 0, len(l2))
+        t2 = time.time()
+        print('Time took:', t2 - t1)
+        assert l1 == l2
+
+    def test4():
+        l1 = [i for i in range(5000)]
+        l2 = l1.copy()
+        print('Sorting 5000 sorted items...(quicksort improved)')
+        t1 = time.time()
+        quicksort_improved(l2, 0, len(l2))
+        t2 = time.time()
+        print('Time took:', t2 - t1)
+        assert l1 == l2
+
     test1()
     test2()
+    test3()
+    test4()
