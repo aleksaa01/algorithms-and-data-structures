@@ -20,14 +20,10 @@ def count_sort(array, array_len, pos):
     for i in range(1, 10):
         count[i] += count[i - 1]
 
-    # for i in range(array_len - 1, -1, -1):
-    #     digit = (array[i] // pos) % 10
-    #     output[count[digit] - 1] = array[i]
-    #     count[digit] -= 1
-
     for i in range(array_len - 1, -1, -1):
-        output[count[(array[i] // pos) % 10] - 1] = array[i]
-        count[(array[i] // pos) % 10] -= 1
+        digit = (array[i] // pos) % 10
+        output[count[digit] - 1] = array[i]
+        count[digit] -= 1
 
     # why not just do: array = output | idk, can we ?
     for i in range(array_len):
