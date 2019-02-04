@@ -3,7 +3,7 @@ def quicksort_improved(array, start, end):
 
 
 def quicksort_helper(array, start, end):
-    if start >= end:
+    if end - start < 1:
         return
 
     pivot = partition_improved(array, start, end)
