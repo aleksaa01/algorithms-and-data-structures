@@ -65,9 +65,9 @@ if __name__ == '__main__':
         l2 = l1.copy()
         random.shuffle(l2)
         print('Sorting 5000 unsorted items...(quicksort)')
-        t1 = time.time()
+        t1 = time.perf_counter()
         quicksort(l2, 0, len(l2))
-        t2 = time.time()
+        t2 = time.perf_counter()
         print('Time took:', t2 - t1)
         assert l1 == l2
 
@@ -75,9 +75,9 @@ if __name__ == '__main__':
         l1 = [i for i in range(5000)]
         l2 = l1.copy()
         print('Sorting 5000 sorted items...(quicksort)')
-        t1 = time.time()
+        t1 = time.perf_counter()
         quicksort(l2, 0, len(l2))
-        t2 = time.time()
+        t2 = time.perf_counter()
         print('Time took:', t2 - t1)
         assert l1 == l2
 
@@ -86,9 +86,9 @@ if __name__ == '__main__':
         l2 = l1.copy()
         random.shuffle(l2)
         print('Sorting 5000 unsorted items...(quicksort improved)')
-        t1 = time.time()
+        t1 = time.perf_counter()
         quicksort_improved(l2, 0, len(l2))
-        t2 = time.time()
+        t2 = time.perf_counter()
         print('Time took:', t2 - t1)
         assert l1 == l2
 
@@ -96,9 +96,9 @@ if __name__ == '__main__':
         l1 = [i for i in range(5000)]
         l2 = l1.copy()
         print('Sorting 5000 sorted items...(quicksort improved)')
-        t1 = time.time()
+        t1 = time.perf_counter()
         quicksort_improved(l2, 0, len(l2))
-        t2 = time.time()
+        t2 = time.perf_counter()
         print('Time took:', t2 - t1)
         assert l1 == l2
 
