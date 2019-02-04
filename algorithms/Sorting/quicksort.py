@@ -1,10 +1,14 @@
 def quicksort_improved(array, start, end):
-    if end - start < 2:
+    quicksort_helper(array, start, end - 1)
+
+
+def quicksort_helper(array, start, end):
+    if start >= end:
         return
 
-    pivot = partition_improved(array, start, end - 1)
-    quicksort_improved(array, start, pivot)
-    quicksort_improved(array, pivot + 1, end)
+    pivot = partition_improved(array, start, end)
+    quicksort_helper(array, start, pivot)
+    quicksort_helper(array, pivot + 1, end)
 
 
 def partition_improved(array, start, end):
@@ -24,6 +28,8 @@ def partition_improved(array, start, end):
             return right
 
         array[left], array[right] = array[right], array[left]
+        left += 1
+        right -= 1
 
 
 def quicksort(array, start, end):
@@ -96,7 +102,21 @@ if __name__ == '__main__':
         print('Time took:', t2 - t1)
         assert l1 == l2
 
+    def test5():
+        l1 = [5, 4, 3, 3, 2, 1]
+        l2 = l1.copy()
+        quicksort_improved(l2, 0, len(l2))
+        assert sorted(l1) == l2
+
+    def test6():
+        l1 = [5, 4, 3, 3, 2, 1]
+        l2 = l1.copy()
+        quicksort(l2, 0, len(l2))
+        assert sorted(l1) == l2
+
     test1()
     test2()
     test3()
     test4()
+    test5()
+    test6()
