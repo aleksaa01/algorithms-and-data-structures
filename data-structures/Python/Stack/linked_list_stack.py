@@ -1,13 +1,20 @@
 from singly_linked_list import SinglyLinkedList
 
 
-class SLLStack:
+class SLLStack(object):
     def __init__(self):
         self.size = 0
         self._data = SinglyLinkedList()
 
     def __len__(self):
         return self.size
+
+    def build(self, list_object):
+        if not isinstance(list_object, list):
+            return TypeError('build method only accepts object of type list.')
+
+        for i in list_object:
+            self._data.add_value(i)
 
     def is_empty(self):
         return self.size == 0
