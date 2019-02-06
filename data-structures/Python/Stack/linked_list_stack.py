@@ -15,6 +15,7 @@ class SLLStack(object):
 
         for i in list_object:
             self._data.add_value(i)
+            self.size += 1
 
     def is_empty(self):
         return self.size == 0
@@ -49,6 +50,13 @@ if __name__ == '__main__':
 
     def test2():
         s = SLLStack()
+        s.build([i for i in range(20)])
+        for i in range(19, -1, -1):
+            print(s.top())
+            assert s.pop() == i
+
+    def test3():
+        s = SLLStack()
         t1 = time.perf_counter()
         for i in range(100000):
             s.push(i)
@@ -63,4 +71,5 @@ if __name__ == '__main__':
 
     test1()
     test2()
+    test3()
     print('All test done.')
