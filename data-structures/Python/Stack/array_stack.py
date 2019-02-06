@@ -1,4 +1,4 @@
-class ArrayStack:
+class ArrayStack(object):
     def __init__(self):
         self._data = []
 
@@ -7,6 +7,13 @@ class ArrayStack:
 
     def __repr__(self):
         return repr(self._data)
+
+    def build(self, list_object):
+        if not isinstance(list_object, list):
+            return TypeError('build method only accepts object of type list.')
+
+        for i in list_object:
+            self._data.append(i)
 
     def is_empty(self):
         return len(self._data) == 0
