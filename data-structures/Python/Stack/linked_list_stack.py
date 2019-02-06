@@ -28,7 +28,7 @@ class SLLStack(object):
         if self.is_empty():
             raise IndexError("Stack is empty")
         top = self._data.head.value
-        self._data.delete_value(self._data.head.value)
+        self._data.delete_node(self._data.head)
         self.size -= 1
         return top
 
@@ -52,7 +52,6 @@ if __name__ == '__main__':
         s = SLLStack()
         s.build([i for i in range(20)])
         for i in range(19, -1, -1):
-            print(s.top())
             assert s.pop() == i
 
     def test3():
