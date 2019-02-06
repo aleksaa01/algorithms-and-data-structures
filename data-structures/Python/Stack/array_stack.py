@@ -42,8 +42,13 @@ if __name__ == '__main__':
         for i in range(11):
             assert s.pop() == i
 
-
     def test2():
+        s = ArrayStack()
+        s.build([i for i in range(20)])
+        for i in range(19, -1, -1):
+            assert s.pop() == i
+
+    def test3():
         s = ArrayStack()
         t1 = time.perf_counter()
         for i in range(100000):
@@ -59,4 +64,5 @@ if __name__ == '__main__':
 
     test1()
     test2()
+    test3()
     print('All test done.')
