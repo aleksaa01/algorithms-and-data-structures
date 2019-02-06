@@ -32,7 +32,7 @@ class SLLStack:
 
 if __name__ == '__main__':
     def test1():
-        s = LLStack()
+        s = SLLStack()
         for i in range(10, -1, -1):
             s.push(i)
         for i in range(11):
