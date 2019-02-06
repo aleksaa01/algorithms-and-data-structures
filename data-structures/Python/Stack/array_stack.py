@@ -26,6 +26,8 @@ class ArrayStack:
 
 
 if __name__ == '__main__':
+    import time
+
     def test1():
         s = ArrayStack()
         for i in range(10, -1, -1):
@@ -33,5 +35,21 @@ if __name__ == '__main__':
         for i in range(11):
             assert s.pop() == i
 
+
+    def test2():
+        s = ArrayStack()
+        t1 = time.perf_counter()
+        for i in range(100000):
+            s.push(i)
+        t2 = time.perf_counter()
+        print('Pushing 100.000 items took:', t2 - t1)
+
+        t1 = time.perf_counter()
+        for i in range(100000):
+            s.pop()
+        t2 = time.perf_counter()
+        print('Popping 100.000 items took:', t2 - t1)
+
     test1()
+    test2()
     print('All test done.')
