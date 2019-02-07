@@ -83,22 +83,22 @@ class BinarySearchTree(object):
     # left subtree -> root -> right subtree
     def traverse_inorder(self, node):
         if node:
-            yield from self._traverse_inorder(node.left_child)
+            yield from self.traverse_inorder(node.left_child)
             yield node.data
-            yield from self._traverse_inorder(node.right_child)
+            yield from self.traverse_inorder(node.right_child)
 
     # root -> left subtree -> right subtree
     def traverse_preorder(self, node):
         if node:
             yield node.data
-            yield from self._traverse_preorder(node.left_child)
-            yield from self._traverse_preorder(node.right_child)
+            yield from self.traverse_preorder(node.left_child)
+            yield from self.traverse_preorder(node.right_child)
 
     # left subtree -> right subtree -> root
     def traverse_postorder(self, node):
         if node:
-            yield from self._traverse_postorder(node.left_child)
-            yield from self._traverse_postorder(node.right_child)
+            yield from self.traverse_postorder(node.left_child)
+            yield from self.traverse_postorder(node.right_child)
             yield node.data
 
     def remove(self, data):
@@ -184,20 +184,20 @@ if __name__ == '__main__':
     print('max: ', bst.max_value())
 
     print('\nTraversing In-order...')
-    [print(i, end=" ") for i in bst.traverse_inorder()]
+    [print(i, end=" ") for i in bst.traverse_inorder(bst.root)]
     print('Traversing Pre-order')
-    [print(i, end=" ") for i in bst.traverse_preorder()]
+    [print(i, end=" ") for i in bst.traverse_preorder(bst.root)]
     print('Traversing Post-order')
-    [print(i, end=" ") for i in bst.traverse_postorder()]
+    [print(i, end=" ") for i in bst.traverse_postorder(bst.root)]
 
     print()
 
-    values_to_remove = [i for i in bst.traverse_inorder()]
+    values_to_remove = [i for i in bst.traverse_inorder(bst.root)]
     for i in values_to_remove:
         print('Removing value: ', i)
         bst.remove(i)
         print('Traversing Pre-order...')
-        [print(i, end=" ") for i in bst.traverse_preorder()]
+        [print(i, end=" ") for i in bst.traverse_preorder(bst.root)]
 
     def test1():
         b = BinarySearchTree()
@@ -210,6 +210,7 @@ if __name__ == '__main__':
         t2 = time.perf_counter()
         print('Time took:', t2 - t1)
 
+        b = BinarySearchTree()
         print('Inserting 5000 consecutive items...')
         t1 = time.perf_counter()
         for i in l1:
