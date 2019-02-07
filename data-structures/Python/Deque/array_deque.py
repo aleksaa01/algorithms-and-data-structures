@@ -96,7 +96,7 @@ class ArrayDeque(object):
             self.data = self.data[front:back + 1] + [None] * (deque_size // 2)
         
         self.front = 0
-        self.back = self.size - 1
+        self.back = deque_size - 1
 
     def shrink(self):
         front = self.front
@@ -109,7 +109,7 @@ class ArrayDeque(object):
             self.data = self.data[front:back + 1]
 
         self.front = 0
-        self.back = self.size - 1
+        self.back = deque_size - 1
 
 
 if __name__ == '__main__':
@@ -173,7 +173,7 @@ if __name__ == '__main__':
         while not dq.is_empty():
             dq.popback()
         t2 = time.time()
-        print('Second part(build, popback, time took:', t2 - t1)
+        print('Second part(build, popback), time took:', t2 - t1)
 
         t1 = time.time()
         dq = ArrayDeque()
