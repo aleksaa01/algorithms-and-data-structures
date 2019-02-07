@@ -60,7 +60,7 @@ class ArrayQueue(object):
         else:
             self.data = self.data[back:front+1] + [None] * (queue_size // 2)
 
-        self.front = self.size - 1
+        self.front = queue_size - 1
         self.back = 0
 
     def shrink(self):
@@ -73,7 +73,7 @@ class ArrayQueue(object):
         else:
             self.data = self.data[back:front+1]
 
-        self.front = self.size - 1
+        self.front = queue_size - 1
         self.back = 0
 
 
@@ -111,6 +111,20 @@ if __name__ == '__main__':
         print('Test 2 is Done.')
 
     def test3():
+        # Test for case when front points to lower index then back.
+        q = ArrayQueue()
+        for i in range(200):
+            q.enqueue(i)
+        for i in range(150):
+            assert q.dequeue() == i
+        for i in range(5):
+            q.enqueue(i)
+        for i in range(50):
+            assert q.dequeue() == 150 + i
+        for i in range(5):
+            assert q.dequeue() == i
+
+    def test4():
         print('Start test 3(processing 1.000.000 items in 2 ways)...')
         long_list = [i for i in range(1000000)]
         t1 = time.time()
@@ -134,3 +148,4 @@ if __name__ == '__main__':
     test1()
     test2()
     test3()
+    test4()
