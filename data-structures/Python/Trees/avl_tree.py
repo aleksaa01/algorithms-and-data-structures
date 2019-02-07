@@ -187,27 +187,24 @@ class AVLTree(object):
 
     # left subtree -> root -> right subtree
     def _traverse_inorder(self, node):
-        if node.left_child:
+        if node:
             yield from self._traverse_inorder(node.left_child)
-        yield node.data
-        if node.right_child:
+            yield node.data
             yield from self._traverse_inorder(node.right_child)
 
     # root -> left subtree -> right subtree
     def _traverse_preorder(self, node):
-        yield node.data
-        if node.left_child:
-            yield from self._traverse_inorder(node.left_child)
-        if node.right_child:
-            yield from self._traverse_inorder(node.right_child)
+        if node:
+            yield node.data
+            yield from self._traverse_preorder(node.left_child)
+            yield from self._traverse_preorder(node.right_child)
 
     # left subtree -> right subtree -> root
     def _traverse_postorder(self, node):
-        if node.left_child:
-            yield from self._traverse_inorder(node.left_child)
-        if node.right_child:
-            yield from self._traverse_inorder(node.right_child)
-        yield node.data
+        if node:
+            yield from self._traverse_postorder(node.left_child)
+            yield from self._traverse_postorder(node.right_child)
+            yield node.data
 
 
 if __name__ == '__main__':
