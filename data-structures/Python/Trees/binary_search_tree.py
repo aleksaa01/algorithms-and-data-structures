@@ -16,7 +16,7 @@ class BinarySearchTree(object):
         if not self.root:
             self.root = Node(data)
         else:
-            self._insert_node(data, self.root)
+            self._iter_insert_node(data, self.root)
 
     def _insert_node(self, data, node):
         if data <= node.data:
@@ -31,6 +31,24 @@ class BinarySearchTree(object):
             else:
                 node.right_child = Node(data)
                 node.right_child.parent = node
+
+    def _iter_insert_node(self, data, node):
+        cur = node
+        while True:
+            if data <= cur.data:
+                if cur.left_child:
+                    cur = cur.left_child
+                    continue
+                cur.left_child = Node(data)
+                cur.left_child.parent = cur
+                break
+            else:
+                if cur.right_child:
+                    cur = cur.right_child
+                    continue
+                cur.right_child = Node(data)
+                cur.right_child.parent = cur
+                break
 
     def min_value(self):
         if not self.root:
@@ -156,6 +174,9 @@ class BinarySearchTree(object):
 
 
 if __name__ == '__main__':
+    import time
+    import random
+
     # test
     print('Creating Binary Search Tree...')
     bst = BinarySearchTree()
@@ -189,3 +210,16 @@ if __name__ == '__main__':
         bst.remove(i)
         print('Traversing Pre-order...')
         [print(i, end=" ") for i in bst.traverse(method='pre')]
+
+    def test2():
+        b = BinarySearchTree()
+        l1 = [i for i in range(5000)]
+        l2 = [random.randint(1, 5000) for _ in range(5000)]
+        print('Inserting 5000 items...')
+        t1 = time.perf_counter()
+        for i in l1:
+            b.insert(i)
+        t2 = time.perf_counter()
+        print('Time took:', t2 - t1)
+
+    test2()
