@@ -32,10 +32,10 @@ class MinHeap(object):
     def pop(self):
         if len(self.data) == 0:
             raise IndexError('Unable to pop, heap is empty.')
-        max_value = self.data[0]
+        min_value = self.data[0]
         self.delete()
 
-        return max_value
+        return min_value
 
     def delete(self):
         if len(self.data) == 0:
