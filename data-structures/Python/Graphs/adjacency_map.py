@@ -80,3 +80,20 @@ class Graph(object):
                 count += 1
         return edges
 
+
+if __name__ == '__main__':
+    graph = Graph()
+    for i in 'abcdef':
+        graph.add_vertex(i)
+    graph.make_edge('a', 'd')
+    graph.make_edge('d', 'c')
+    graph.make_edge('c', 'c')
+    graph.make_edge('c', 'b')
+    graph.make_edge('c', 'e')
+
+    print('GRAPH CONSTRUCTED')
+
+    print('Vertices:', graph.vertices())
+    print('Graph:', graph._graph_dict)
+    print('Number of edges:', graph.num_edges)
+    print('Edges:', graph.edges())
