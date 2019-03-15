@@ -19,6 +19,9 @@
 #     def const
 
 
+from queue import Queue
+
+
 class Graph(object):
 
     def __init__(self, graph_dict=None):
@@ -71,6 +74,12 @@ class Graph(object):
     def vertices(self):
         return list(self._graph_dict.keys())
 
+    def neighbours(self, vertex):
+        try:
+            return self._graph_dict[vertex]
+        except AttributeError:
+            raise ValueError('Vertex({}) not found in Graph.'.format(vertex))
+
     def edges(self):
         edges = [None] * self.num_edges
         count = 0
@@ -79,6 +88,42 @@ class Graph(object):
                 edges[count] = (node, neighbour)
                 count += 1
         return edges
+
+    def dfs(self, source, destination):
+        visited = set()
+        visited.add(source)
+        return self._dfs(source, destination, visited)
+
+    def _dfs(self, source, destination, visited):
+        if source == destination:
+            return True
+
+        for node in self.neighbours(source):
+            if node in visited:
+                continue
+            visited.add(node)
+            found = self._dfs(node, destination, visited)
+            if found:
+                return True
+
+        return False
+
+    def bfs(self, source, destination):
+        queue = Queue()
+        visited = set()
+
+        queue.put(source)
+        visited.add(source)
+        while not queue.empty():
+            for node in self.neighbours(queue.get()):
+                if node == destination:
+                    return True
+                elif node not in visited:
+                    queue.put(node)
+                    visited.add(node)
+        return False
+
+
 
 
 if __name__ == '__main__':
@@ -97,3 +142,7 @@ if __name__ == '__main__':
     print('Graph:', graph._graph_dict)
     print('Number of edges:', graph.num_edges)
     print('Edges:', graph.edges())
+    print('Depth first search of the path between a and e:', graph.dfs('a', 'e'))
+    print('Breadth first search of the path between a and e:', graph.bfs('a', 'e'))
+    print('Depth first search of the path between a and f:', graph.dfs('a', 'f'))
+    print('Breadth first search of the path between a and f:', graph.bfs('a', 'f'))
