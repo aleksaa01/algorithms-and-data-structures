@@ -69,9 +69,9 @@ class ArrayQueue(object):
         queue_size = self.size
 
         if front < back:
-            self.data = self.data[back:queue_size] + self.data[:front+1]
+            self.data = self.data[back:] + self.data[:front + 1]
         else:
-            self.data = self.data[back:front+1]
+            self.data = self.data[back:front + 1]
 
         self.front = queue_size - 1
         self.back = 0
