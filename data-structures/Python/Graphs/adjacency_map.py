@@ -22,7 +22,7 @@
 from queue import Queue
 
 
-class Graph(object):
+class MappedGraph(object):
 
     def __init__(self, graph_dict=None):
         self._graph_dict = graph_dict if graph_dict else {}
@@ -127,7 +127,7 @@ class Graph(object):
 
 
 if __name__ == '__main__':
-    graph = Graph()
+    graph = MappedGraph()
     for i in 'abcdef':
         graph.add_vertex(i)
     graph.make_edge('a', 'd')
