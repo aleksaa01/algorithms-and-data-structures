@@ -1,24 +1,3 @@
-# class EdgeNode(object):
-#
-#     def __init__(self, value):
-#         self.value = value
-#         self.adjacent_nodes = []
-#
-#
-# class Graph(object):
-#
-#     MAX_VERTICES = 1000
-#
-#     def __init__(self):
-#         self.edges = [None] * self.MAX_VERTICES
-#         self.degree = [0] * self.MAX_VERTICES
-#         self.num_vertices = 0
-#         self.num_edges = 0
-#         self.is_directed = False
-#
-#     def const
-
-
 from queue import Queue
 
 
@@ -44,7 +23,7 @@ class MappedGraph(object):
             self._graph_dict[vertex1].append(vertex2)
         self.num_edges += 1
 
-        if directed:
+        if directed or vertex1 == vertex2:
             return
 
         if vertex2 not in self._graph_dict:
