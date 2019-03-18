@@ -106,6 +106,8 @@ class MappedGraph(object):
 
 
 if __name__ == '__main__':
+    import sys
+
     graph = MappedGraph()
     for i in 'abcdef':
         graph.add_vertex(i)
@@ -121,6 +123,7 @@ if __name__ == '__main__':
     print('Graph:', graph._graph_dict)
     print('Number of edges:', graph.num_edges)
     print('Edges:', graph.edges())
+    print('Size of the Graph:', sys.getsizeof(graph._graph_dict))
     print('Depth first search of the path between a and e:', graph.dfs('a', 'e'))
     print('Breadth first search of the path between a and e:', graph.bfs('a', 'e'))
     print('Depth first search of the path between a and f:', graph.dfs('a', 'f'))
