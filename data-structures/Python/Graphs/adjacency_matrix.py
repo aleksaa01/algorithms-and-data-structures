@@ -43,7 +43,7 @@ class MatrixGraph(object):
         self._graph_matrix[vertex1][vertex2] = 1
         if directed or vertex1 == vertex2:
             return
-        self._graph_matrix[vertex2][vertex2] = 1
+        self._graph_matrix[vertex2][vertex1] = 1
 
     def vertices(self):
         vertices = [None] * self.num_vertices
@@ -54,4 +54,38 @@ class MatrixGraph(object):
                 count += 1
         return vertices
 
+    def neighbours(self, vertex):
+        neighbours = []
+        for v in self._graph_matrix[vertex]:
+            if v > 0:
+                neighbours.append(v)
+        return neighbours
 
+    def edges(self):
+        edges = []
+        for row in range(len(self._graph_matrix)):
+            for index, vertex in enumerate(self._graph_matrix[row]):
+                if vertex > 0:
+                    edges.append((row, index))
+        return edges
+
+
+if __name__ == '__main__':
+    import sys
+
+    graph = MatrixGraph(max_vertices=126)
+    for i in [1,2,3,20, 39, 120]:
+        graph.add_vertex(i)
+
+    graph.make_edge(1, 2)
+    graph.make_edge(2, 3)
+    graph.make_edge(3, 20)
+    graph.make_edge(20, 39)
+    graph.make_edge(39, 120)
+
+    print('GRAPH CONSTRUCTED')
+
+    print('Vertices:', graph.vertices())
+    print('Number of edges:', graph.num_vertices)
+    print('Edges:', graph.edges())
+    print('Size of the Graph:', sys.getsizeof(graph._graph_matrix))
