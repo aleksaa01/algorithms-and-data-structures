@@ -70,21 +70,18 @@ class MappedGraph(object):
 
     def dfs(self, source, destination):
         visited = set()
-        visited.add(source)
         return self._dfs(source, destination, visited)
 
     def _dfs(self, source, destination, visited):
         if source == destination:
             return True
 
-        for node in self.neighbours(source):
-            if node in visited:
-                continue
-            visited.add(node)
-            found = self._dfs(node, destination, visited)
-            if found:
-                return True
-
+        visited.add(source)
+        for v in self.neighbours(source):
+            if v not in visited:
+                found = self._dfs(v, destination, visited)
+                if found:
+                    return True
         return False
 
     def bfs(self, source, destination):
