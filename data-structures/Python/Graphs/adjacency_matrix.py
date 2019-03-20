@@ -63,9 +63,9 @@ class MatrixGraph(object):
 
     def neighbours(self, vertex):
         neighbours = []
-        for v in self._graph_matrix[vertex]:
+        for index, v in enumerate(self._graph_matrix[vertex]):
             if v > 0:
-                neighbours.append(v)
+                neighbours.append(index)
         return neighbours
 
     def edges(self):
@@ -77,6 +77,22 @@ class MatrixGraph(object):
                     edges[count] = (row, index)
                     count += 1
         return edges
+
+    def dfs(self, source, destination):
+        visited = set()
+        return self._dfs(source, destination, visited)
+
+    def _dfs(self, source, destination, visited):
+        if source == destination:
+            return True
+
+        visited.add(source)
+        for v in self.neighbours(source):
+            if v not in visited:
+                found = self._dfs(v, destination, visited)
+                if found:
+                    return True
+        return False
 
 
 if __name__ == '__main__':
@@ -100,3 +116,5 @@ if __name__ == '__main__':
     print('Edges:', graph.edges())
     print('Neighbours of vertex 2:', graph.neighbours(2))
     print('Size of the Graph:', sys.getsizeof(graph._graph_matrix))
+
+    print('Depth first search of the path between 1 and 120:', graph.dfs(1, 120))
