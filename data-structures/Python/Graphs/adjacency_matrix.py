@@ -1,3 +1,6 @@
+from queue import Queue
+
+
 class MatrixGraph(object):
     """
     Graph doesn't validate values of vertices for sake of good speed.
@@ -94,6 +97,22 @@ class MatrixGraph(object):
                     return True
         return False
 
+    def bfs(self, source, destination):
+        queue = Queue()
+        visited = set()
+
+        queue.put(source)
+        visited.add(source)
+
+        while not queue.empty():
+            for v in self.neighbours(queue.get()):
+                if v == destination:
+                    return True
+                elif v not in visited:
+                    visited.add(v)
+                    queue.put(v)
+        return False
+
 
 if __name__ == '__main__':
     import sys
@@ -118,3 +137,4 @@ if __name__ == '__main__':
     print('Size of the Graph:', sys.getsizeof(graph._graph_matrix))
 
     print('Depth first search of the path between 1 and 120:', graph.dfs(1, 120))
+    print('Breath first search of the path between 1 and 120:', graph.bfs(1, 120))
