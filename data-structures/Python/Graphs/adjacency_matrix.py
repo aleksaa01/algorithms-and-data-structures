@@ -117,7 +117,7 @@ class MatrixGraph(object):
 if __name__ == '__main__':
     import sys
 
-    graph = MatrixGraph(max_vertices=126)
+    graph = MatrixGraph()
     for i in [1, 2, 3, 20, 39, 120]:
         graph.add_vertex(i)
 
@@ -130,7 +130,7 @@ if __name__ == '__main__':
     print('GRAPH CONSTRUCTED')
 
     print('Vertices:', graph.vertices())
-    print('Number of edges:', graph.num_vertices)
+    print('Number of vertices:', graph.num_vertices)
     print('Number of edges:', graph.num_edges)
     print('Edges:', graph.edges())
     print('Neighbours of vertex 2:', graph.neighbours(2))
