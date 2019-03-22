@@ -1,3 +1,6 @@
+from queue import Queue
+
+
 class MatrixGraph(object):
     """
     Graph doesn't validate values of vertices for sake of good speed.
@@ -7,11 +10,14 @@ class MatrixGraph(object):
     def __init__(self, graph_matrix=None, max_vertices=1024):
         if graph_matrix:
             self._graph_matrix = graph_matrix
+            self.num_vertices = graph_matrix.num_vertices
+            self.num_edges = graph_matrix.num_edges
         else:
             self._graph_matrix = [[-1] * max_vertices for _ in range(max_vertices)]
+            self.num_vertices = 0
+            self.num_edges = 0
 
         self.max_vertices = max_vertices
-        self.num_vertices = 0
 
     def add_vertex(self, vertex):
         self._graph_matrix[vertex][vertex] = 0
@@ -30,9 +36,11 @@ class MatrixGraph(object):
 
         # Add edge
         self._graph_matrix[vertex1][vertex2] = 1
+        self.num_edges += 1
         if directed or vertex1 == vertex2:
             return
         self._graph_matrix[vertex2][vertex1] = 1
+        self.num_edges += 1
 
     def make_edge(self, vertex1, vertex2, directed=False):
         if self._graph_matrix[vertex1][vertex1] == -1:
@@ -41,9 +49,11 @@ class MatrixGraph(object):
             raise ValueError('Vertex({}) not found in Graph.'.format(vertex2))
 
         self._graph_matrix[vertex1][vertex2] = 1
+        self.num_edges += 1
         if directed or vertex1 == vertex2:
             return
         self._graph_matrix[vertex2][vertex1] = 1
+        self.num_edges += 1
 
     def vertices(self):
         vertices = [None] * self.num_vertices
@@ -56,25 +66,59 @@ class MatrixGraph(object):
 
     def neighbours(self, vertex):
         neighbours = []
-        for v in self._graph_matrix[vertex]:
+        for index, v in enumerate(self._graph_matrix[vertex]):
             if v > 0:
-                neighbours.append(v)
+                neighbours.append(index)
         return neighbours
 
     def edges(self):
-        edges = []
+        edges = [None] * self.num_edges
+        count = 0
         for row in range(len(self._graph_matrix)):
             for index, vertex in enumerate(self._graph_matrix[row]):
                 if vertex > 0:
-                    edges.append((row, index))
+                    edges[count] = (row, index)
+                    count += 1
         return edges
+
+    def dfs(self, source, destination):
+        visited = set()
+        return self._dfs(source, destination, visited)
+
+    def _dfs(self, source, destination, visited):
+        if source == destination:
+            return True
+
+        visited.add(source)
+        for v in self.neighbours(source):
+            if v not in visited:
+                found = self._dfs(v, destination, visited)
+                if found:
+                    return True
+        return False
+
+    def bfs(self, source, destination):
+        queue = Queue()
+        visited = set()
+
+        queue.put(source)
+        visited.add(source)
+
+        while not queue.empty():
+            for v in self.neighbours(queue.get()):
+                if v == destination:
+                    return True
+                elif v not in visited:
+                    visited.add(v)
+                    queue.put(v)
+        return False
 
 
 if __name__ == '__main__':
     import sys
 
-    graph = MatrixGraph(max_vertices=126)
-    for i in [1,2,3,20, 39, 120]:
+    graph = MatrixGraph()
+    for i in [1, 2, 3, 20, 39, 120]:
         graph.add_vertex(i)
 
     graph.make_edge(1, 2)
@@ -86,6 +130,11 @@ if __name__ == '__main__':
     print('GRAPH CONSTRUCTED')
 
     print('Vertices:', graph.vertices())
-    print('Number of edges:', graph.num_vertices)
+    print('Number of vertices:', graph.num_vertices)
+    print('Number of edges:', graph.num_edges)
     print('Edges:', graph.edges())
+    print('Neighbours of vertex 2:', graph.neighbours(2))
     print('Size of the Graph:', sys.getsizeof(graph._graph_matrix))
+
+    print('Depth first search of the path between 1 and 120:', graph.dfs(1, 120))
+    print('Breath first search of the path between 1 and 120:', graph.bfs(1, 120))
