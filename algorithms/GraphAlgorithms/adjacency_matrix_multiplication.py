@@ -5,8 +5,8 @@ def matrix_multiplication(matrix1, matrix2):
         return ValueError('Both matrices have to have same row and column length.')
 
     new_matrix = [[0] * row_len for _ in range(column_len)]
-    for i in range(len(matrix1)):
-        for j in range(len(matrix1[0])):
+    for i in range(column_len):
+        for j in range(row_len):
             for k in range(row_len):
                 new_matrix[i][j] += matrix1[i][k] * matrix2[k][j]
 
