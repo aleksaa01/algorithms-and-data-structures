@@ -69,3 +69,26 @@ class ListGraph(object):
                 edges[count] = [i, v]
                 count += 1
         return edges
+
+
+if __name__ == '__main__':
+    import sys
+
+    graph = ListGraph()
+    for i in [1, 2, 3, 20, 39, 120]:
+        graph.add_vertex(i)
+
+    graph.make_edge(1, 2)
+    graph.make_edge(2, 3)
+    graph.make_edge(3, 20)
+    graph.make_edge(20, 39)
+    graph.make_edge(39, 120)
+
+    print('GRAPH CONSTRUCTED')
+
+    print('Vertices:', graph.vertices())
+    print('Number of vertices:', graph.num_vertices)
+    print('Number of edges:', graph.num_edges)
+    print('Edges:', graph.edges())
+    print('Neighbours of vertex 2:', graph.neighbours(2))
+    print('Size of the Graph:', sys.getsizeof(graph._graph_list))
