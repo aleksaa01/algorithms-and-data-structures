@@ -70,6 +70,23 @@ class ListGraph(object):
                 count += 1
         return edges
 
+    def dfs(self, source, destination):
+        visited = set()
+        return self._dfs(source, destination, visited)
+
+    def _dfs(self, source, destination, visited):
+        if source == destination:
+            return True
+
+        visited.add(source)
+        for v in self.neighbours(source):
+            if v in visited:
+                continue
+            res = self._dfs(v, destination, visited)
+            if res:
+                return True
+        return False
+
 
 if __name__ == '__main__':
     import sys
@@ -92,3 +109,5 @@ if __name__ == '__main__':
     print('Edges:', graph.edges())
     print('Neighbours of vertex 2:', graph.neighbours(2))
     print('Size of the Graph:', sys.getsizeof(graph._graph_list))
+
+    print('', graph.dfs(1, 120))
