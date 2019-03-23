@@ -1,3 +1,6 @@
+from queue import Queue
+
+
 class ListGraph(object):
 
     def __init__(self, graph_list=None, max_vertices=1024):
@@ -87,6 +90,22 @@ class ListGraph(object):
                 return True
         return False
 
+    def bfs(self, source, destination):
+        queue = Queue()
+        visited = set()
+
+        queue.put(source)
+        visited.add(source)
+        while not queue.empty():
+            for v in self.neighbours(queue.get()):
+                if v == destination:
+                    return True
+                elif v not in visited:
+                    queue.put(v)
+                    visited.add(v)
+        return False
+
+
 
 if __name__ == '__main__':
     import sys
@@ -110,4 +129,5 @@ if __name__ == '__main__':
     print('Neighbours of vertex 2:', graph.neighbours(2))
     print('Size of the Graph:', sys.getsizeof(graph._graph_list))
 
-    print('', graph.dfs(1, 120))
+    print('Depth first search of the path between 1 and 120:', graph.dfs(1, 120))
+    print('Breath first search of the path between 1 and 120:', graph.bfs(1, 120))
