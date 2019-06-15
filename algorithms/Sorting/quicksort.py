@@ -24,6 +24,9 @@ def partition_improved(array, start, end):
         while array[right] > pivot:
             right -= 1
 
+        # left will be greater than right only if array length in odd
+        # and you have next situation: [1, 2, 1, 3]
+        #                                  ^pivot
         if left >= right:
             return right
 
@@ -51,6 +54,7 @@ def partition(array, start, end):
     array[end], array[middle] = array[middle], array[end]
 
     pivot = array[end]
+    # i is basically a counter of elements less than pivot.
     i = start
     for j in range(start, end):
         if array[j] < pivot:
