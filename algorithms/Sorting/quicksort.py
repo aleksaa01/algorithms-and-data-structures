@@ -1,14 +1,14 @@
 def quicksort_improved(array, start, end):
-    quicksort_helper(array, start, end - 1)
+    quicksort_helper2(array, start, end - 1)
 
 
-def quicksort_helper(array, start, end):
+def quicksort_helper2(array, start, end):
     if end - start < 1:
         return
 
     pivot = partition_improved(array, start, end)
-    quicksort_helper(array, start, pivot)
-    quicksort_helper(array, pivot + 1, end)
+    quicksort_helper2(array, start, pivot)
+    quicksort_helper2(array, pivot + 1, end)
 
 
 def partition_improved(array, start, end):
@@ -33,17 +33,21 @@ def partition_improved(array, start, end):
 
 
 def quicksort(array, start, end):
-    if end - start < 2:
+    quicksort_helper(array, start, end - 1)
+
+
+def quicksort_helper(array, start, end):
+    if start > end:
         return
 
-    pivot = partition(array, start, end - 1)
-    quicksort(array, start, pivot)
-    quicksort(array, pivot + 1, end)
+    pivot = partition(array, start, end)
+    quicksort_helper(array, start, pivot - 1)
+    quicksort_helper(array, pivot + 1, end)
 
 
 def partition(array, start, end):
     # swap last and middle element, improvement for already sorted arrays.
-    middle = (start + end + 1) // 2
+    middle = (start + end) // 2
     array[end], array[middle] = array[middle], array[end]
 
     pivot = array[end]
@@ -72,7 +76,7 @@ if __name__ == '__main__':
         assert l1 == l2
 
     def test2():
-        l1 = [i for i in range(5000)]
+        l1 = [i for i in range(500)]
         l2 = l1.copy()
         print('Sorting 5000 sorted items...(quicksort)')
         t1 = time.perf_counter()
